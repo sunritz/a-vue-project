@@ -1,0 +1,11 @@
+.msg-list img{width:100%;}
+.msg-box {border-bottom:1px solid #efefef; padding: .5rem 0;}
+.msg-box > .col-60 > h4{ margin: 0; padding: 0; font-weight: 400; font-size: .8rem; color: #000;display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;}
+
+.msg-box > .col-40 > img{float: left; border: 1px solid #efefef;}
+.msg-box > .col-60 > p{ margin: .5rem 0 0 0; padding: 0; font-weight: 400; font-size: .7rem; color: #555;}
+.bar{ background-color: #fff;border-top: 1px solid #c5c5c5;}
+
