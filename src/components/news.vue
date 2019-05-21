@@ -5,25 +5,73 @@
 				<h1 class="title">新闻</h1>
 			</header>
 			<app-nav news-cur="active"></app-nav>
-			<div class="content pull-to-refresh-content" data-ptr-distance="55">
-				<!-- 默认的下拉刷新层 -->
-				<div class="pull-to-refresh-layer">
-					<div class="preloader"></div>
-					<div class="pull-to-refresh-arrow"></div>
+			<div class="content">
+				<div class="buttons-tab">
+					<a href="#tab1" class="tab-link active button">全部</a>
+					<a href="#tab2" class="tab-link button">待付款</a>
+					<a href="#tab3" class="tab-link button">待发货</a>
 				</div>
-				<div class="content-padded msg-list">
-					<div class="row msg-box open-detail" v-for="(item, index) in list"  @click="detail(item.title,item.content,item.time)">
-						<div class="col-40">
-							<img :src="item.pic" alt="" />
+				<div style="margin-top: 1.5rem;" class="content pull-to-refresh-content" data-ptr-distance="55">
+					<!-- 默认的下拉刷新层 -->
+					<div class="tabs">
+						<div id="tab1" class="tab active">
+							<div class="pull-to-refresh-layer">
+								<div class="preloader"></div>
+								<div class="pull-to-refresh-arrow"></div>
+							</div>
+							<div class="content-padded msg-list">
+								<div class="row msg-box open-detail" v-for="(item, index) in list" @click="detail(item.title,item.content,item.time)">
+									<div class="col-40">
+										<img :src="item.pic" alt="" />
+									</div>
+									<div class="col-60">
+										<h4>{{ item.title }}</h4>
+										<p>{{ item.disp }}</p>
+										<p class="row"><span class="col-60 time">{{ item.time }}</span><span class="col-40"><button class="button button-round button-fill" v-if="show" @click.stop="del(index)">删除</button></span></p>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div class="col-60">
-							<h4>{{ item.title }}</h4>
-							<p>{{ item.disp }}</p>
-							<p class="row"><span class="col-60 time">{{ item.time }}</span><span class="col-40"><button class="button button-round button-fill" v-if="show" @click.stop="del(index)">删除</button></span></p>
+						<div id="tab2" class="tab">
+							<div class="pull-to-refresh-layer">
+								<div class="preloader"></div>
+								<div class="pull-to-refresh-arrow"></div>
+							</div>
+							<div class="content-padded msg-list">
+								<div class="row msg-box open-detail" v-for="(item, index) in mlist" @click="detail(item.title,item.content,item.time)">
+									<div class="col-40">
+										<img :src="item.pic" alt="" />
+									</div>
+									<div class="col-60">
+										<h4>{{ item.title }}</h4>
+										<p>{{ item.disp }}</p>
+										<p class="row"><span class="col-60 time">{{ item.time }}</span><span class="col-40"><button class="button button-round button-fill" v-if="show" @click.stop="del(index)">删除</button></span></p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="tab3" class="tab">
+							<div class="pull-to-refresh-layer">
+								<div class="preloader"></div>
+								<div class="pull-to-refresh-arrow"></div>
+							</div>
+							<div class="content-padded msg-list">
+								<div class="row msg-box open-detail" v-for="(item, index) in slist" @click="detail(item.title,item.content,item.time)">
+									<div class="col-40">
+										<img :src="item.pic" alt="" />
+									</div>
+									<div class="col-60">
+										<h4>{{ item.title }}</h4>
+										<p>{{ item.disp }}</p>
+										<p class="row"><span class="col-60 time">{{ item.time }}</span><span class="col-40"><button class="button button-round button-fill" v-if="show" @click.stop="del(index)">删除</button></span></p>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
+
 				</div>
-			</div>		
+			</div>
 		</div>
 	</div>
 </template>
@@ -34,11 +82,16 @@
 			return {
 				name: 'admin',
 				list: [],
+				mlist: [],
+				slist: [],
 				show: false
 			}
 		},
 		mounted: function() {
 			this.loadmore();
+			this.secloadmore();
+			this.thrloadmore();
+			this.touchdirection();
 			var _this = this;
 			$(document).on('refresh', '.pull-to-refresh-content', function(e) {
 				// 模拟2s的加载过程
@@ -56,29 +109,140 @@
 					this.list = listdata.splice(id, 1, );
 				})
 			},
-			detail: function(tit,con,time) {
-				var popupHTML = 
+			detail: function(tit, con, time) {
+				var popupHTML =
 					`<div class="popup">
 						<header class="bar bar-nav">
 						    <a class="button button-link button-nav pull-left"  data-transition='slide-out'>
 						      <span class="icon icon-circle-left close-popup"></span>
 						      返回
 						    </a>
-						    <h1 class="title">`+tit+`</h1>
+						    <h1 class="title">` + tit + `</h1>
 						    
 					  	</header>
 					  	<div class="content">
 					  		
 						  	<div class="content-block">
-						  		 <b>`+time+`</b>
-								 <p>`+con+`</p>
-								 <p>`+con+`</p>
-								 <p>`+con+`</p>
-								 <p>`+con+`</p>
+						  		 <b>` + time + `</b>
+								 <p>` + con + `</p>
+								 <p>` + con + `</p>
+								 <p>` + con + `</p>
+								 <p>` + con + `</p>
 							</div>
 						</div>
                      </div>`
-  				$.popup(popupHTML);
+				$.popup(popupHTML);
+			},
+			touchdirection: function() {
+				var h = document.documentElement.clientHeight,
+					mybody = document.getElementsByTagName('body')[0];
+				mybody.style.height = h + 'px';
+
+				//返回角度
+
+				function GetSlideAngle(dx, dy) {
+					return Math.atan2(dy, dx) * 180 / Math.PI;
+				}
+
+				//根据起点和终点返回方向 1：向上，2：向下，3：向左，4：向右,0：未滑动
+
+				function GetSlideDirection(startX, startY, endX, endY) {
+					var dy = startY - endY;
+					var dx = endX - startX;
+					var result = 0;
+					//如果滑动距离太短
+					if(Math.abs(dx) < 2 && Math.abs(dy) < 2) {
+						return result;
+					}
+					var angle = GetSlideAngle(dx, dy);
+					if(angle >= -45 && angle < 45) {
+						result = 4;
+					} else if(angle >= 45 && angle < 135) {
+						result = 1;
+					} else if(angle >= -135 && angle < -45) {
+						result = 2;
+					} else if((angle >= 135 && angle <= 180) || (angle >= -180 && angle < -135)) {
+						result = 3;
+					}
+					return result;
+				}
+
+				var startX, startY;
+				mybody.addEventListener('touchstart', function(ev) {
+					ev.preventDefault();
+					startX = ev.touches[0].pageX;
+					startY = ev.touches[0].pageY;
+				}, false);
+
+				mybody.addEventListener('touchmove', function(ev) {
+					var endX, endY;
+					ev.preventDefault();
+					endX = ev.changedTouches[0].pageX;
+					endY = ev.changedTouches[0].pageY;
+					var direction = GetSlideDirection(startX, startY, endX, endY);
+
+					switch(direction) {
+						case 0:
+							alert("没滑动");
+							break;
+							//						case 1:
+							//							alert("向上");
+							//							break;
+							//						case 2:
+							//							alert("向下");
+							//							break;
+						case 3:
+							for(var i=1;i<=$(".tab").length;i++){	
+								if($("#tab"+$(".tab").length).hasClass("active")) {
+										$.toast("没有了！");
+										break
+								}else if($("#tab"+[i]).hasClass("active")) {									
+									$("#tab"+[i]).css({
+										"transform": "translateX(-100%)",
+										"transition": "all 1s ease"
+									})
+									$(".buttons-tab .tab-link").eq([i]-1).removeClass("active");
+									$(".buttons-tab .tab-link").eq(i).addClass("active");
+									setTimeout(function() {
+										$("#tab"+[i]).css({
+											"transform": "translateX(0)",
+											"transition": "all 0s ease"
+										})
+										$("#tab"+[i]).removeClass("active");
+										$("#tab"+[i+1]).addClass("active")
+									}, 1000);
+									return; 
+								}								
+							}
+						break;
+						case 4:
+						for(var i=1;i<=$(".tab").length;i++){	
+								if($("#tab1").hasClass("active")) {
+									$.toast("没有了！");
+									break
+								}else if($("#tab"+[i]).hasClass("active")) {									
+									$("#tab"+[i]).css({
+										"transform": "translateX(100%)",
+										"transition": "all 1s ease"
+									})
+									$(".buttons-tab .tab-link").eq([i-1]).removeClass("active");
+									$(".buttons-tab .tab-link").eq([i-2]).addClass("active");
+									setTimeout(function() {
+										$("#tab"+[i]).css({
+											"transform": "translateX(0)",
+											"transition": "all 0s ease"
+										})
+										$("#tab"+[i]).removeClass("active");
+										$("#tab"+[i-1]).addClass("active")
+									}, 1000);
+									return; 
+								}								
+							}
+							break;
+						default:
+					}
+
+				}, false);
 			},
 			loadmore: function() {
 				let storage = window.localStorage;
@@ -87,6 +251,32 @@
 				}
 				this.$http.get("mock/newsList").then(res => {
 						this.list = this.list.concat(res.data.list);
+						//						this.list.push(res.data.list)
+					})
+					.catch(err => {
+						console.log(err);
+					});
+			},
+			secloadmore: function() {
+				let storage = window.localStorage;
+				if(storage.getItem("name") === this.name) {
+					this.show = true;
+				}
+				this.$http.get("mock/mList").then(res => {
+						this.mlist = this.mlist.concat(res.data.list);
+						//						this.list.push(res.data.list)
+					})
+					.catch(err => {
+						console.log(err);
+					});
+			},
+			thrloadmore: function() {
+				let storage = window.localStorage;
+				if(storage.getItem("name") === this.name) {
+					this.show = true;
+				}
+				this.$http.get("mock/mList").then(res => {
+						this.slist = this.slist.concat(res.data.list);
 						//						this.list.push(res.data.list)
 					})
 					.catch(err => {
@@ -116,6 +306,10 @@
 		margin: .2rem 0 0 0;
 	}
 	
+	.buttons-tab {
+		z-index: 2;
+	}
+	* { touch-action: pan-y; }
 	.content {
 		background-color: $bg;
 	}
@@ -127,7 +321,11 @@
 	.icon-link .col-25 {
 		text-align: center;
 	}
-	.popup-overlay.modal-overlay-visible{display: none;}
+	
+	.popup-overlay.modal-overlay-visible {
+		display: none;
+	}
+	
 	.icon-link img {
 		width: 80%;
 	}
