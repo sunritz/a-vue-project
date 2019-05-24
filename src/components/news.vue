@@ -3,6 +3,7 @@
 		<div class="page page-current">
 			<header class="bar bar-nav">
 				<h1 class="title">新闻</h1>
+
 			</header>
 			<app-nav news-cur="active"></app-nav>
 			<div class="content">
@@ -20,6 +21,7 @@
 								<div class="pull-to-refresh-arrow"></div>
 							</div>
 							<div class="content-padded msg-list">
+
 								<div class="row msg-box open-detail" v-for="(item, index) in list" @click="detail(item.title,item.content,item.time)">
 									<div class="col-40">
 										<img :src="item.pic" alt="" />
@@ -27,9 +29,10 @@
 									<div class="col-60">
 										<h4>{{ item.title }}</h4>
 										<p>{{ item.disp }}</p>
-										<p class="row"><span class="col-60 time">{{ item.time }}</span><span class="col-40"><button class="button button-round button-fill" v-if="show" @click.stop="del(index)">删除</button></span></p>
+										<p class="row"><span class="col-60 time">{{ item.time }}</span><span class="col-40"><button class="button button-round button-fill" v-if="show" @click.stop="del(index,1)">删除</button></span></p>
 									</div>
 								</div>
+
 							</div>
 						</div>
 						<div id="tab2" class="tab">
@@ -45,7 +48,7 @@
 									<div class="col-60">
 										<h4>{{ item.title }}</h4>
 										<p>{{ item.disp }}</p>
-										<p class="row"><span class="col-60 time">{{ item.time }}</span><span class="col-40"><button class="button button-round button-fill" v-if="show" @click.stop="del(index)">删除</button></span></p>
+										<p class="row"><span class="col-60 time">{{ item.time }}</span><span class="col-40"><button class="button button-round button-fill" v-if="show" @click.stop="del(index,2)">删除</button></span></p>
 									</div>
 								</div>
 							</div>
@@ -63,7 +66,7 @@
 									<div class="col-60">
 										<h4>{{ item.title }}</h4>
 										<p>{{ item.disp }}</p>
-										<p class="row"><span class="col-60 time">{{ item.time }}</span><span class="col-40"><button class="button button-round button-fill" v-if="show" @click.stop="del(index)">删除</button></span></p>
+										<p class="row"><span class="col-60 time">{{ item.time }}</span><span class="col-40"><button class="button button-round button-fill" v-if="show" @click.stop="del(index,3)">删除</button></span></p>
 									</div>
 								</div>
 							</div>
@@ -88,13 +91,16 @@
 			}
 		},
 		mounted: function() {
+
 			this.loadmore();
 			this.secloadmore();
 			this.thrloadmore();
 			this.touchdirection();
+
 			var _this = this;
 			$(document).on('refresh', '.pull-to-refresh-content', function(e) {
 				// 模拟2s的加载过程
+
 				setTimeout(function() {
 					_this.pullrefresh();
 					// 加载完毕需要重置
@@ -103,11 +109,25 @@
 			});
 		},
 		methods: {
-			del: function(id) {
-				let listdata = this.list;
-				$.confirm('是否删除数据？', function() {
-					this.list = listdata.splice(id, 1, );
-				})
+			del: function(id,num) {
+				if(num == 1){
+					let listdata = this.list;
+					$.confirm('是否删除数据？', function() {
+						this.list = listdata.splice(id, 1, );
+					})
+				}else if(num == 2){
+					let listdata = this.mlist;
+					$.confirm('是否删除数据？', function() {
+						this.mlist = listdata.splice(id, 1, );
+					})
+				}else if(num == 3){
+					let listdata = this.slist;
+					$.confirm('是否删除数据？', function() {
+						this.slist = listdata.splice(id, 1, );
+					})
+				}
+				
+				
 			},
 			detail: function(tit, con, time) {
 				var popupHTML =
@@ -172,7 +192,9 @@
 					ev.preventDefault();
 					startX = ev.touches[0].pageX;
 					startY = ev.touches[0].pageY;
-				}, false);
+				}, {
+					passive: false
+				});
 
 				mybody.addEventListener('touchmove', function(ev) {
 					var endX, endY;
@@ -182,67 +204,69 @@
 					var direction = GetSlideDirection(startX, startY, endX, endY);
 
 					switch(direction) {
-						case 0:
-							alert("没滑动");
-							break;
-							//						case 1:
-							//							alert("向上");
-							//							break;
-							//						case 2:
-							//							alert("向下");
-							//							break;
+						//							case 0:
+						//							$.alert("没滑动");
+						//							break;
+						//						case 1:
+						//							alert("向上");
+						//							break;
+						//						case 2:
+						//							alert("向下");
+						//							break;
 						case 3:
-							for(var i=1;i<=$(".tab").length;i++){	
-								if($("#tab"+$(".tab").length).hasClass("active")) {
-										$.toast("没有了！");
-										break
-								}else if($("#tab"+[i]).hasClass("active")) {									
-									$("#tab"+[i]).css({
+							for(var i = 1; i <= $(".tab").length; i++) {
+								if($("#tab" + $(".tab").length).hasClass("active")) {
+									$.toast("没有了！");
+									break
+								} else if($("#tab" + [i]).hasClass("active")) {
+									$("#tab" + [i]).css({
 										"transform": "translateX(-100%)",
 										"transition": "all 1s ease"
 									})
-									$(".buttons-tab .tab-link").eq([i]-1).removeClass("active");
+									$(".buttons-tab .tab-link").eq([i] - 1).removeClass("active");
 									$(".buttons-tab .tab-link").eq(i).addClass("active");
 									setTimeout(function() {
-										$("#tab"+[i]).css({
+										$("#tab" + [i]).css({
 											"transform": "translateX(0)",
 											"transition": "all 0s ease"
 										})
-										$("#tab"+[i]).removeClass("active");
-										$("#tab"+[i+1]).addClass("active")
+										$("#tab" + [i]).removeClass("active");
+										$("#tab" + [i + 1]).addClass("active")
 									}, 1000);
-									return; 
-								}								
+									return;
+								}
 							}
-						break;
+							break;
 						case 4:
-						for(var i=1;i<=$(".tab").length;i++){	
+							for(var i = 1; i <= $(".tab").length; i++) {
 								if($("#tab1").hasClass("active")) {
 									$.toast("没有了！");
 									break
-								}else if($("#tab"+[i]).hasClass("active")) {									
-									$("#tab"+[i]).css({
+								} else if($("#tab" + [i]).hasClass("active")) {
+									$("#tab" + [i]).css({
 										"transform": "translateX(100%)",
 										"transition": "all 1s ease"
 									})
-									$(".buttons-tab .tab-link").eq([i-1]).removeClass("active");
-									$(".buttons-tab .tab-link").eq([i-2]).addClass("active");
+									$(".buttons-tab .tab-link").eq([i - 1]).removeClass("active");
+									$(".buttons-tab .tab-link").eq([i - 2]).addClass("active");
 									setTimeout(function() {
-										$("#tab"+[i]).css({
+										$("#tab" + [i]).css({
 											"transform": "translateX(0)",
 											"transition": "all 0s ease"
 										})
-										$("#tab"+[i]).removeClass("active");
-										$("#tab"+[i-1]).addClass("active")
+										$("#tab" + [i]).removeClass("active");
+										$("#tab" + [i - 1]).addClass("active")
 									}, 1000);
-									return; 
-								}								
+									return;
+								}
 							}
 							break;
 						default:
 					}
 
-				}, false);
+				}, {
+					passive: false
+				});
 			},
 			loadmore: function() {
 				let storage = window.localStorage;
@@ -309,7 +333,15 @@
 	.buttons-tab {
 		z-index: 2;
 	}
-	* { touch-action: pan-y; }
+	
+	html {
+		touch-action: manipulation;
+	}
+	
+	* {
+		touch-action: pan-y;
+	}
+	
 	.content {
 		background-color: $bg;
 	}
