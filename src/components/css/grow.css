@@ -1,8 +1,0 @@
-header.bar { background-color: #9bcb67;}
-header.bar > .title {color: #fff;  }
-.bar-tab .tab-item.active, .bar-tab .tab-item:active{ color: #9bcb67}
-[class^="icon-"], [class*=" icon-"]{
-    font-size: 1rem;
-}
-.facebook-card .card-footer a{ color: #9bcb67}
-.facebook-card .card-footer a > span:last-child { font-size: .9rem;}

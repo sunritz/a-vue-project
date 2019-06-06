@@ -1,0 +1,172 @@
+<html>
+<head>
+<title>earthbuy.vue</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(248,248,242); }
+</style>
+</head>
+<BODY BGCOLOR="#272822">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+earthbuy.vue</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">&lt;template&gt; 
+    &lt;div&gt; 
+        &lt;header class=&quot;bar bar-nav&quot;&gt; 
+            &lt;h1 class=&quot;title&quot;&gt;全球购&lt;/h1&gt; 
+            &lt;a class=&quot;button button-link button-nav pull-right&quot; href=&quot;&quot; data-transition='slide-out'&gt; 
+                &lt;span class=&quot;icon icon-cart&quot;&gt;&lt;/span&gt; 
+                 
+            &lt;/a&gt; 
+        &lt;/header&gt; 
+        &lt;div class=&quot;bar bar-header-secondary&quot;&gt; 
+            &lt;div class=&quot;searchbar&quot;&gt; 
+                &lt;a class=&quot;searchbar-cancel&quot;&gt;取消&lt;/a&gt; 
+                &lt;div class=&quot;search-input&quot;&gt; 
+                    &lt;label class=&quot;icon icon-search&quot; for=&quot;search&quot;&gt;&lt;/label&gt; 
+                    &lt;input type=&quot;search&quot; id='search' placeholder='输入关键字...' /&gt; 
+                &lt;/div&gt; 
+            &lt;/div&gt; 
+        &lt;/div&gt; 
+        &lt;app-nav earthbuy-cur=&quot;active&quot;&gt;&lt;/app-nav&gt; 
+        &lt;div class=&quot;content infinite-scroll infinite-scroll-bottom&quot; data-distance=&quot;50&quot;&gt; 
+            &lt;div class=&quot;list-container row buybox&quot;&gt; 
+            &lt;/div&gt; 
+            &lt;!-- 加载提示符 --&gt; 
+            &lt;div class=&quot;infinite-scroll-preloader&quot;&gt; 
+                &lt;div class=&quot;preloader&quot;&gt;&lt;/div&gt; 
+            &lt;/div&gt; 
+        &lt;/div&gt; 
+ 
+    &lt;/div&gt; 
+ 
+&lt;/template&gt; 
+ 
+&lt;script&gt; 
+    export default { 
+        data() { 
+            return { 
+                id: '', 
+                name: '' 
+            } 
+        }, 
+        mounted: function() { 
+            this.infinite(); 
+            this.goodsdetail(); 
+        }, 
+        computed: { 
+                     
+        }, 
+        methods: { 
+            goodsdetail: function() { 
+                $(document).on(&quot;click&quot;,&quot;.card&quot;,function(e){ 
+                    let id = $(e.currentTarget).data(&quot;id&quot;) 
+                    window.location.href=&quot;goodsdetail?id=&quot;+id; 
+                }) 
+            }, 
+            infinite: function() { 
+                 
+                this.$http.get(&quot;mock/earthbuyList&quot;).then(res =&gt; {   
+                        this.$store.state.data=res.data.list; 
+                        let d = this.$store.state.data; 
+                         
+                        // 加载flag 
+                        var loading = false; 
+                        // 最多可加载的条目 
+                        var maxItems = 17; 
+                        // 每次加载添加多少条目 
+                        var itemsPerLoad = 4; 
+                        function addItems(number, lastIndex) { 
+                            // 生成新条目的HTML 
+                            var html = ''; 
+                            for(var i = lastIndex + 0; i &lt;= lastIndex + number; i++) { 
+                                 
+                                var newslist = d[i]; 
+                                html += `&lt;div class=&quot;card demo-card-header-pic col-50&quot; data-id=&quot;${newslist.id}&quot;&gt; 
+                                            &lt;div valign=&quot;bottom&quot; class=&quot;card-header color-white no-border no-padding&quot;&gt; 
+                                                &lt;img src=&quot;${newslist.proimg}&quot; width=&quot;100%&quot;&gt; 
+                                            &lt;/div&gt; 
+                                            &lt;div class=&quot;card-content&quot;&gt; 
+                                              &lt;div class=&quot;card-content-inner&quot;&gt;  
+                                                &lt;p&gt;${newslist.protitle}&lt;/p&gt; 
+                                                 
+                                              &lt;/div&gt; 
+                                            &lt;/div&gt; 
+                                            &lt;div class=&quot;card-footer&quot;&gt; 
+                                              &lt;div class=&quot;link price&quot;&gt;￥&lt;span&gt;${newslist.proprice}&lt;/span&gt;&lt;/div&gt; 
+                                              &lt;p class=&quot;link&quot;&gt;${newslist.buyednum}人付款&lt;/p&gt; 
+                                            &lt;/div&gt; 
+                                        &lt;/div&gt;` 
+                            } 
+                            // 添加新条目 
+                            $('.infinite-scroll-bottom .list-container').append(html); 
+ 
+                        } 
+                        //预先加载5条 
+                        addItems(itemsPerLoad, 0); 
+ 
+                        // 上次加载的序号 
+ 
+                        var lastIndex = 4; 
+ 
+                        // 注册'infinite'事件处理函数 
+                        $(document).on('infinite', '.infinite-scroll-bottom', function() { 
+ 
+                            // 如果正在加载，则退出 
+                            if(loading) return; 
+ 
+                            // 设置flag 
+                            loading = true; 
+ 
+                            // 模拟1s的加载过程 
+                            setTimeout(function() { 
+                                // 重置加载flag 
+                                loading = false; 
+ 
+                                if(lastIndex &gt;= maxItems) { 
+                                    $.toast(&quot;mock数据已经加载完&quot;) 
+                                    // 加载完毕，则注销无限加载事件，以防不必要的加载 
+                                    $.detachInfiniteScroll($('.infinite-scroll')); 
+                                    // 删除加载提示符 
+                                    $('.infinite-scroll-preloader').remove(); 
+                                    return; 
+                                } 
+ 
+                                // 添加新条目 
+                                addItems(itemsPerLoad, lastIndex); 
+                                // 更新最后加载的序号 
+                                lastIndex = $('.list-container .card').length; 
+                                //容器发生改变,如果是js滚动，需要刷新滚动 
+                                $.refreshScroller(); 
+                            }, 1000); 
+                        }); 
+ 
+                    }) 
+                    .catch(err =&gt; { 
+                        console.log(err); 
+                    }); 
+            } 
+ 
+        } 
+    } 
+&lt;/script&gt; 
+ 
+&lt;style lang=&quot;scss&quot; scoped type=&quot;text/css&quot;&gt; 
+    $bg:#fff; 
+    .content { 
+        background-color: $bg; 
+        padding: .5rem 
+    } 
+     
+    * { 
+        touch-action: pan-y; 
+    } 
+     
+&lt;/style&gt;</span></pre>
+</body>
+</html>

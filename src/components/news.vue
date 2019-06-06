@@ -3,7 +3,6 @@
 		<div class="page page-current">
 			<header class="bar bar-nav">
 				<h1 class="title">新闻</h1>
-
 			</header>
 			<app-nav news-cur="active"></app-nav>
 			<div class="content">
@@ -76,6 +75,7 @@
 				</div>
 			</div>
 		</div>
+
 	</div>
 </template>
 
@@ -109,6 +109,9 @@
 			});
 		},
 		methods: {
+			add:function(){
+				this.num=this.num+this.add
+			},
 			del: function(id,num) {
 				if(num == 1){
 					let listdata = this.list;
@@ -126,8 +129,6 @@
 						this.slist = listdata.splice(id, 1, );
 					})
 				}
-				
-				
 			},
 			detail: function(tit, con, time) {
 				var popupHTML =
@@ -138,10 +139,10 @@
 						      返回
 						    </a>
 						    <h1 class="title">` + tit + `</h1>
-						    
+
 					  	</header>
 					  	<div class="content">
-					  		
+
 						  	<div class="content-block">
 						  		 <b>` + time + `</b>
 								 <p>` + con + `</p>
@@ -177,11 +178,13 @@
 					var angle = GetSlideAngle(dx, dy);
 					if(angle >= -45 && angle < 45) {
 						result = 4;
-					} else if(angle >= 45 && angle < 135) {
+					}
+          else if(angle >= 45 && angle < 135) {
 						result = 1;
 					} else if(angle >= -135 && angle < -45) {
 						result = 2;
-					} else if((angle >= 135 && angle <= 180) || (angle >= -180 && angle < -135)) {
+					}
+          else if((angle >= 135 && angle <= 180) || (angle >= -180 && angle < -135)) {
 						result = 3;
 					}
 					return result;
@@ -210,9 +213,9 @@
 						//						case 1:
 						//							alert("向上");
 						//							break;
-						//						case 2:
-						//							alert("向下");
-						//							break;
+//												case 2:
+//													alert("向下");
+//													break;
 						case 3:
 							for(var i = 1; i <= $(".tab").length; i++) {
 								if($("#tab" + $(".tab").length).hasClass("active")) {
@@ -329,45 +332,45 @@
 	.time {
 		margin: .2rem 0 0 0;
 	}
-	
+
 	.buttons-tab {
 		z-index: 2;
 	}
-	
+
 	html {
 		touch-action: manipulation;
 	}
-	
+
 	* {
 		touch-action: pan-y;
 	}
-	
+
 	.content {
 		background-color: $bg;
 	}
-	
+
 	.msg-list img {
 		width: 100%;
 	}
-	
+
 	.icon-link .col-25 {
 		text-align: center;
 	}
-	
+
 	.popup-overlay.modal-overlay-visible {
 		display: none;
 	}
-	
+
 	.icon-link img {
 		width: 80%;
 	}
-	
+
 	.icon-link p {
 		line-height: .1rem;
 		font-size: .7rem;
 		color: #555;
 	}
-	
+
 	.msg-title {
 		font-size: .8rem;
 		font-weight: 400;
@@ -376,12 +379,12 @@
 		background-size: .8rem;
 		line-height: .8rem
 	}
-	
+
 	.msg-box {
 		border-bottom: 1px solid #efefef;
 		padding: .5rem 0;
 	}
-	
+
 	.msg-box>.col-60>h4 {
 		margin: 0;
 		padding: 0;
@@ -393,12 +396,12 @@
 		-webkit-line-clamp: 2;
 		overflow: hidden;
 	}
-	
+
 	.msg-box>.col-40>img {
 		float: left;
 		border: 1px solid #efefef;
 	}
-	
+
 	.msg-box>.col-60>p {
 		margin: .5rem 0 0 0;
 		padding: 0;

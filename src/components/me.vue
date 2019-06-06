@@ -126,10 +126,10 @@
 			}
 		},
 		watch: { 
-			$route(to, from) { //跳转组件页面后，监听路由参数中对应的当前页面以及上一个页面
+			$route(to, from) {
 				console.log(to)
-				if(to.name === 'me') { // to.name来获取当前所显示的页面，从而控制该显示或隐藏footerBar组件
-					this.$store.dispatch('showFooter') // 利用派发全局state.showFooter的值来控制        
+				if(to.name === 'me') {
+					this.$store.dispatch('showFooter')
 				} else {
 					this.$store.dispatch('hideFooter')
 				}
@@ -152,7 +152,7 @@
 							console.log(typeof storage["name"]);
 							console.log(typeof storage["pass"]);
 						}
-						window.location.href = "news";
+						window.location.href = "logined";
 					})
 				} else {
 					$.alert("用户密码不正确！", function() {

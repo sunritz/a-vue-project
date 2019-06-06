@@ -119,7 +119,6 @@
 			loadmore: function() {
 				this.$http.get("mock/indexList").then(res => {
 						this.list = this.list.concat(res.data.list);
-						//						this.list.push(res.data.list)
 					})
 					.catch(err => {
 						console.log(err);
@@ -131,6 +130,7 @@
 		$.init();
 	});
 </script>
+
 <style lang="scss" scoped type="text/css">
 	$bg:#fff;
 	header.bar {

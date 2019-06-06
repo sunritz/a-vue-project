@@ -4,6 +4,10 @@ import Index from '@/components/index'
 import News from '@/components/news'
 import Grow from '@/components/grow'
 import Me from '@/components/me'
+import EarthBuy from '@/components/earthbuy'
+import GoodsDetail from '@/components/goodsdetail'
+import Logined from '@/components/logined'
+
 Vue.use(Router)
 Vue.filter('formatDate', function(value) { // 一个时间戳转正常的过滤器
 	let date = new Date(value) // new 一个时间
@@ -45,6 +49,21 @@ export default new Router({
 			path: '/me',
 			name: 'me',
 			component: Me
-		}
+		},
+		{
+			path: '/earthbuy',
+			name: 'earthbuy',
+			component: EarthBuy
+		},
+		{
+			path: '/goodsdetail',
+			name: 'goodsdetail',
+			component: GoodsDetail
+		},
+    {
+      path: '/logined',
+      name: 'logined',
+      component: Logined
+    }
 	]
 })
