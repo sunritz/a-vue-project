@@ -95,7 +95,7 @@
 			this.loadmore();
 			this.secloadmore();
 			this.thrloadmore();
-			this.touchdirection();
+			
 
 			var _this = this;
 			$(document).on('refresh', '.pull-to-refresh-content', function(e) {
@@ -154,123 +154,7 @@
                      </div>`
 				$.popup(popupHTML);
 			},
-			touchdirection: function() {
-				var h = document.documentElement.clientHeight,
-					mybody = document.getElementsByTagName('body')[0];
-				mybody.style.height = h + 'px';
 
-				//返回角度
-
-				function GetSlideAngle(dx, dy) {
-					return Math.atan2(dy, dx) * 180 / Math.PI;
-				}
-
-				//根据起点和终点返回方向 1：向上，2：向下，3：向左，4：向右,0：未滑动
-
-				function GetSlideDirection(startX, startY, endX, endY) {
-					var dy = startY - endY;
-					var dx = endX - startX;
-					var result = 0;
-					//如果滑动距离太短
-					if(Math.abs(dx) < 2 && Math.abs(dy) < 2) {
-						return result;
-					}
-					var angle = GetSlideAngle(dx, dy);
-					if(angle >= -45 && angle < 45) {
-						result = 4;
-					}
-          else if(angle >= 45 && angle < 135) {
-						result = 1;
-					} else if(angle >= -135 && angle < -45) {
-						result = 2;
-					}
-          else if((angle >= 135 && angle <= 180) || (angle >= -180 && angle < -135)) {
-						result = 3;
-					}
-					return result;
-				}
-
-				var startX, startY;
-				mybody.addEventListener('touchstart', function(ev) {
-					ev.preventDefault();
-					startX = ev.touches[0].pageX;
-					startY = ev.touches[0].pageY;
-				}, {
-					passive: false
-				});
-
-				mybody.addEventListener('touchmove', function(ev) {
-					var endX, endY;
-					ev.preventDefault();
-					endX = ev.changedTouches[0].pageX;
-					endY = ev.changedTouches[0].pageY;
-					var direction = GetSlideDirection(startX, startY, endX, endY);
-
-					switch(direction) {
-						//							case 0:
-						//							$.alert("没滑动");
-						//							break;
-						//						case 1:
-						//							alert("向上");
-						//							break;
-//												case 2:
-//													alert("向下");
-//													break;
-						case 3:
-							for(var i = 1; i <= $(".tab").length; i++) {
-								if($("#tab" + $(".tab").length).hasClass("active")) {
-									$.toast("没有了！");
-									break
-								} else if($("#tab" + [i]).hasClass("active")) {
-									$("#tab" + [i]).css({
-										"transform": "translateX(-100%)",
-										"transition": "all 1s ease"
-									})
-									$(".buttons-tab .tab-link").eq([i] - 1).removeClass("active");
-									$(".buttons-tab .tab-link").eq(i).addClass("active");
-									setTimeout(function() {
-										$("#tab" + [i]).css({
-											"transform": "translateX(0)",
-											"transition": "all 0s ease"
-										})
-										$("#tab" + [i]).removeClass("active");
-										$("#tab" + [i + 1]).addClass("active")
-									}, 1000);
-									return;
-								}
-							}
-							break;
-						case 4:
-							for(var i = 1; i <= $(".tab").length; i++) {
-								if($("#tab1").hasClass("active")) {
-									$.toast("没有了！");
-									break
-								} else if($("#tab" + [i]).hasClass("active")) {
-									$("#tab" + [i]).css({
-										"transform": "translateX(100%)",
-										"transition": "all 1s ease"
-									})
-									$(".buttons-tab .tab-link").eq([i - 1]).removeClass("active");
-									$(".buttons-tab .tab-link").eq([i - 2]).addClass("active");
-									setTimeout(function() {
-										$("#tab" + [i]).css({
-											"transform": "translateX(0)",
-											"transition": "all 0s ease"
-										})
-										$("#tab" + [i]).removeClass("active");
-										$("#tab" + [i - 1]).addClass("active")
-									}, 1000);
-									return;
-								}
-							}
-							break;
-						default:
-					}
-
-				}, {
-					passive: false
-				});
-			},
 			loadmore: function() {
 				let storage = window.localStorage;
 				if(storage.getItem("name") === this.name) {
