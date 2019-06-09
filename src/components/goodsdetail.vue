@@ -50,7 +50,6 @@
 							<div class="item-media">参数</div>
 							<div class="item-inner">
 								<div class="item-title">品牌、尺码</div>
-
 							</div>
 						</li>
 					</ul>
@@ -58,7 +57,7 @@
 				<div class="list-block">
 					<ul>
 						<li class="item-content item-link">
-							<div class="item-media">宝贝评价(2535)</div>
+							<div class="item-media">宝贝评价({{detail.totaldiscuss}})</div>
 							<div class="item-inner">
 								 <div class="item-title"></div>
 								<div class="item-after">查看全部</div>
@@ -68,10 +67,10 @@
 				</div>
 
 				<div class="discuss">
-					<span>质量不错(234)</span>
-					<span>很舒适(211)</span>
-					<span>很划算(160)</span>
-					<span>布料好(55)</span>
+					<span>质量不错({{detail.numone}})</span>
+					<span>很舒适({{detail.numtwo}})</span>
+					<span>很划算({{detail.numthree}})</span>
+					<span>布料好({{detail.numfour}})</span>
 					<div class="user"><img :src="detail.header">{{detail.user}}</div>
 					<p>{{detail.discuss}}</p>
 				</div>
@@ -150,24 +149,10 @@
 			//						}
 			//			  		);
 			//			});
-		}
-		//	methods: {
-		//		back:function(){
-		//			history.back(-1)
-		//		},
-		//		ajaxdata:function(){
-		//			this.$http.get("mock/proDetail").then(res => {
-		//				    JSON.parse(JSON.stringify(this.goodsdetail=res.data.detail));
-		//					})
-		//					.catch(err => {
-		//						console.log(err);
-		//					});
-		//		},
-		//		add:function(){
-		//			let num = this.goodsdetail.buyednum;
-		//			this.goodsdetail.buyednum=num+1
-		//		}
-		//	}
+		},
+			methods: {
+
+			}
 	}
 </script>
 

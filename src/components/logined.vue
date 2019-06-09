@@ -7,9 +7,14 @@
       </a>
     </header>
     <app-nav me-cur="active"></app-nav>
+
     <div class="content">
       <div class="userimg"><img :src="header"/></div>
       <div class="username">{{name}}</div>
+      <app-menu></app-menu>
+
+
+
     </div>
   </div>
 </template>
@@ -26,13 +31,15 @@
   ,
   mounted: function () {
     this.load();//加载时判断是否登录
-  },
+  }
+  ,
   computed: {
     isShow()
     {
       return this.$store.getters.isShow;
     }
-  },
+  }
+  ,
   watch: {
     $route(to, from)
     {
@@ -46,21 +53,22 @@
   }
   ,
   methods: {
-    load:function(){
+    load:function () {
       let storage = window.localStorage;
-      if(storage.getItem("name") === this.name) {
+      if (storage.getItem("name") === this.name) {
         return
-      }else{
+      } else {
         window.location.href = "me";
       }
-    },
-    exit:function(){
+    }
+  ,
+    exit:function () {
       localStorage.removeItem("name");
-      $.alert('已退出',function(){
+      $.alert('已退出', function () {
         window.location.href = "me";
       })
-     }
-   }
+    }
+  }
   }
 </script>
 
@@ -69,22 +77,22 @@
   .content {
     background-color: $bg;
 
-    .userimg {
-      width: 5rem;
-      border-radius: 50%;
-      height: 5rem;
-      margin: 1rem auto;
-      overflow: hidden;
+  .userimg {
+    width: 5rem;
+    border-radius: 50%;
+    height: 5rem;
+    margin: 1rem auto;
+    overflow: hidden;
 
-      img {
-        width: auto;
-        height: 100%;
-      }
+  img {
+    width: auto;
+    height: 100%;
+  }
 
-    }
-    .username {
-      text-align: center;
-    }
+  }
+  .username {
+    text-align: center;
+  }
 
   }
 </style>

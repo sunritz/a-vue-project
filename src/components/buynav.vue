@@ -36,11 +36,13 @@
       let storage = window.localStorage;
       if(storage.getItem("name") === this.name) {
         if($(".collect").hasClass('icon-star-full')){
+          this.$store.dispatch('uncollected');
           $.toast("取消收藏成功!")
           $(".collect").removeClass("icon-star-full")
           return false
         }else{
-          $.toast("收藏成功!")
+          this.$store.dispatch('collected');
+          $.toast("收藏成功!");
           $(".collect").addClass("icon-star-full")
           return false
         }
@@ -50,8 +52,7 @@
         })
       }
     }
-  },
-  props: ['indexCur', 'newsCur', 'earthbuyCur', 'growCur', 'meCur']
+  }
   }
 </script>
 <style lang="scss" scoped type="text/css">
@@ -71,6 +72,9 @@
   .icon{
     margin:0 .4rem;
     color:#999;
+  }
+  .icon-star-full{
+    color:#880000;
   }
 
     p, div {
@@ -103,7 +107,6 @@
       color:#fff;
     }
   }
-
   .bar-tab .tab-item.active,
   .bar-tab .tab-item:active {
     color: #9bcb67

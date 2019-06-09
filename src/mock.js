@@ -93,8 +93,13 @@ Mock.mock("mock/proDetail", {
       prised:'@integer(1, 1000)',
       proprice:'@float(60, 1000, 0, 1)',
       salednum:'@integer(1, 10000)',
+      totaldiscuss:'@integer(1, 10000)',
+      numone:'@integer(1, 2500)',
+      numtwo:'@integer(1, 2500)',
+      numthree:'@integer(1, 2500)',
+      numfour:'@integer(1, 2500)',
       id:'',
-      collect:0
+      collected:0
     }
   ]
 });

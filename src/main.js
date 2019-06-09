@@ -8,6 +8,7 @@ import router from './router'
 import './assets/fonts/font.css'
 import './assets/css/index.css'
 import Nav from '@/components/nav'
+import Menu from '@/components/menu'
 import Buynav from '@/components/buynav'
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
@@ -16,6 +17,7 @@ Vue.use(VueResource)
 Vue.config.productionTip = false
 //Vue.prototype.$http = axios
 Vue.component('app-nav', Nav)
+Vue.component('app-menu', Menu)
 Vue.component('app-buynav', Buynav)
 new Vue({
 	el: '#app',
