@@ -20,6 +20,8 @@
 </template>
 
 <script>
+  import axios from 'axios';
+
   export default {
     data()
   {
@@ -30,6 +32,13 @@
   }
   ,
   mounted: function () {
+    axios.get('mock/proDetail')
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     this.load();//加载时判断是否登录
   }
   ,

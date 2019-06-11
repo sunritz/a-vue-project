@@ -16,48 +16,51 @@ const getters = {
 };
 const mutations = {
 	getJson() {
-    
+
 	}
 
 };
 const actions = {
-  uncollected(i){
+  uncollected(){
     if(!window.localStorage) {
       $.alert("浏览器不支持localstorage");
       return false;
     } else {
       let storage = window.localStorage;
-      let c = JSON.parse(storage.getItem("collected"));
-      c.splice(c.length-1,1);
-      //state.collected=c;//取消收藏直接删除localStorage的数据，不经过vuex的store
-      localStorage.setItem("collected",JSON.stringify(c))
-      console.log(JSON.parse(storage.getItem("collected")).length)
+      if(JSON.parse(storage.getItem("collected")).length==1){
+          storage.removeItem('collected');
+      }else{
+        let c = JSON.parse(storage.getItem("collected"));
+        c.splice(c.length-1,1);//删除数组最后一个
+        localStorage.setItem("collected",JSON.stringify(c))
+        console.log(JSON.parse(storage.getItem("collected")).length)
+      }
     }
   },
-  collected() {
-    if(!window.localStorage) {
-      $.alert("浏览器不支持localstorage");
-      return false;
-    } else {
-      let storage = window.localStorage;
-      let c = JSON.parse(storage.getItem("collected"));
-      c.push(JSON.parse(JSON.stringify(state.detail)))
-      //state.collected.push(JSON.parse(JSON.stringify(state.detail)));//添加收藏直接存储localStorage的数据，不经过vuex的store
-      storage.setItem("collected", JSON.stringify(c));
-      console.log(JSON.parse(storage.getItem("collected")).length)
-    }
-  },
+    collected() {
+      if(!window.localStorage) {
+        $.alert("浏览器不支持localstora ge");
+        return false;
+      } else {
+        let storage = window.localStorage;
+        if(storage.getItem("collected")==null){
+           storage.setItem("collected","["+storage.getItem("detail")+"]");
+        }else{
+          let c = JSON.parse(storage.getItem("collected"));
+          c.push(JSON.parse(JSON.stringify(state.detail)));
+          storage.setItem("collected", JSON.stringify(c));
+          console.log(JSON.parse(storage.getItem("collected")).length)
+        }
+      }
+    },
 	vuexjson() {
-//		context.commit('getJson');
 		    Vue.http.get("mock/proDetail").then(res => {
-				state.detail = res.data.list;
-        console.log(state.detail)
 				if(!window.localStorage) {
 							$.alert("浏览器不支持localstorage");
 							return false;
 						} else {
 							let storage = window.localStorage;
-							storage.setItem("detail", res.data.list);
+							storage.setItem("detail", JSON.stringify(res.data.list));
 						}
 			})
 			.catch(err => {

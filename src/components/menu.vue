@@ -1,6 +1,6 @@
 <template>
   <nav class="bar-tab">
-    <a class="tab-item" href="/" external>
+    <a class="tab-item" href="collected" external>
       <span class="icon icon-star-full"></span>
       <span class="tab-label">已收藏</span>
       <span class="badge">{{collectednum}}</span>

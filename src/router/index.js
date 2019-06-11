@@ -7,6 +7,7 @@ import Me from '@/components/me'
 import EarthBuy from '@/components/earthbuy'
 import GoodsDetail from '@/components/goodsdetail'
 import Logined from '@/components/logined'
+import Collected from '@/components/collected'
 
 Vue.use(Router)
 Vue.filter('formatDate', function(value) { // 一个时间戳转正常的过滤器
@@ -64,6 +65,11 @@ export default new Router({
       path: '/logined',
       name: 'logined',
       component: Logined
+    },
+    {
+      path: '/collected',
+      name: 'collected',
+      component: Collected
     }
 	]
 })
