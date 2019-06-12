@@ -31,7 +31,7 @@ const actions = {
           storage.removeItem('collected');
       }else{
         let c = JSON.parse(storage.getItem("collected"));
-        c.splice(c.length-1,1);//删除数组最后一个
+        c.splice(c.length-1,1);//Mock数据，删除数组最后一个,实际项目中还是要对应ID删除
         localStorage.setItem("collected",JSON.stringify(c))
         console.log(JSON.parse(storage.getItem("collected")).length)
       }
@@ -39,7 +39,7 @@ const actions = {
   },
     collected() {
       if(!window.localStorage) {
-        $.alert("浏览器不支持localstora ge");
+        $.alert("浏览器不支持localstorage");
         return false;
       } else {
         let storage = window.localStorage;
@@ -47,7 +47,7 @@ const actions = {
            storage.setItem("collected","["+storage.getItem("detail")+"]");
         }else{
           let c = JSON.parse(storage.getItem("collected"));
-          c.push(JSON.parse(JSON.stringify(state.detail)));
+          c.push(JSON.parse(storage.getItem("detail")));
           storage.setItem("collected", JSON.stringify(c));
           console.log(JSON.parse(storage.getItem("collected")).length)
         }
