@@ -5,10 +5,10 @@
       <span class="tab-label">已收藏</span>
       <span class="badge">{{collectednum}}</span>
     </a>
-    <a class="tab-item" href="grow" external>
+    <a class="tab-item" href="cart" external>
       <span class="icon icon-cart"></span>
       <span class="tab-label">购物车</span>
-      <span class="badge">2</span>
+      <span class="badge">{{cart}}</span>
     </a>
     <a class="tab-item" href="#" external>
       <span class="icon icon-cart"></span>
@@ -30,7 +30,8 @@
   data(){
     return {
       collectednum:'',
-      name: 'admin'
+      name: 'admin',
+      cart: JSON.parse(window.localStorage.getItem("cart"))?JSON.parse(window.localStorage.getItem("cart")).length:0
     }
   },
   mounted:function(){

@@ -3,7 +3,7 @@
 		<header class="bar bar-nav">
 			<h1 class="title">全球购</h1>
 			<a class="button button-link button-nav pull-right" href="" data-transition='slide-out'>
-				<span class="icon icon-cart"></span>
+        <span class="icon icon-cart"></span><span class="badge">{{cart}}</span>
 			</a>
 		</header>
 		<div class="bar bar-header-secondary">
@@ -34,7 +34,8 @@
 		data() {
 			return {
 				id: '',
-				name: ''
+				name: '',
+        cart: JSON.parse(window.localStorage.getItem("cart"))?JSON.parse(window.localStorage.getItem("cart")).length:0
 			}
 		},
 		mounted: function() {
@@ -148,5 +149,26 @@
 	* {
 		touch-action: pan-y;
 	}
+  .bar{
+  .pull-right{
+    margin-right: .25rem;
+  }
+  }
+  .badge{
+    position: absolute;
+    top: .1rem;
+    left: 50%;
+    z-index: 100;
+    height: .8rem;
+    min-width: .8rem;
+    padding: 0 .2rem;
+    font-size: .6rem;
+    line-height: .8rem;
+    color: #fff;
+    vertical-align: top;
+    background: red;
+    border-radius: .5rem;
+    margin-left: .1rem;
+  }
 
 </style>

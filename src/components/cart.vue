@@ -4,7 +4,7 @@
       <a class="button button-link button-nav pull-left back" data-transition='slide-out'>
         <span class="icon icon-circle-left"></span>
       </a>
-      <h1 class="title">已收藏</h1>
+      <h1 class="title">购物车</h1>
       <a class="button button-link button-nav pull-right" @click="exit">
         <span class="icon icon-exit"></span>退出
       </a>
@@ -14,7 +14,7 @@
     <div class="content">
       <div class="list-block media-list">
         <ul>
-          <li v-for="item in collected">
+          <li v-for="item in cart">
             <label class="label-checkbox item-content">
               <input type="checkbox" name="my-radio">
               <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
@@ -45,7 +45,7 @@
   {
     return {
       name: 'admin',
-      collected: []
+      cart: []
     }
   }
   ,
@@ -53,11 +53,16 @@
     this.load();
   }
   ,
+  computed: {
+
+  }
+  ,
   methods: {
     load:function () {
       let storage = window.localStorage;
       if (storage.getItem("name") === this.name) {
-        this.collected = JSON.parse(storage.getItem("collected"));
+        this.cart = JSON.parse(storage.getItem("cart"));
+//        console.log(storage.getItem("cart"))
       } else {
         window.location.href = "me";
       }

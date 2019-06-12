@@ -5,9 +5,11 @@
         <span class="icon icon-circle-left"></span>
       </a>
 			<h1 class="title">商品详情</h1>
+
       <a class="button button-link button-nav pull-right" href="" data-transition='slide-out'>
-        <span class="icon icon-cart"></span>
+        <span class="icon icon-cart"></span><span class="badge">{{cartnum}}</span>
       </a>
+
 
 		</header>
 		<app-buynav></app-buynav>
@@ -101,7 +103,8 @@
 	export default {
 		data() {
 			return {
-				details: this.$store.state.detail
+				details: this.$store.state.detail,
+        cartnum: this.$store.state.cart
 			}
 		},
 		created: function() {
@@ -114,6 +117,8 @@
 		]),
 		mounted: function() {
 			this.$store.dispatch('vuexjson');
+
+
 			$(function() {
 				$(".swiper-container").swiper({
 					pagination: '.swiper-pagination',
@@ -152,6 +157,27 @@
             height: 100%;
          }
     }
+  }
+  .bar{
+  .pull-right{
+    margin-right: .25rem;
+    }
+  }
+  .badge{
+    position: absolute;
+    top: .1rem;
+    left: 50%;
+    z-index: 100;
+    height: .8rem;
+    min-width: .8rem;
+    padding: 0 .2rem;
+    font-size: .6rem;
+    line-height: .8rem;
+    color: #fff;
+    vertical-align: top;
+    background: red;
+    border-radius: .5rem;
+    margin-left: .1rem;
   }
 	.sendpro{
 		font-size: .7rem;

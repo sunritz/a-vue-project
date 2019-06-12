@@ -8,6 +8,7 @@ import EarthBuy from '@/components/earthbuy'
 import GoodsDetail from '@/components/goodsdetail'
 import Logined from '@/components/logined'
 import Collected from '@/components/collected'
+import Cart from '@/components/cart'
 
 Vue.use(Router)
 Vue.filter('formatDate', function(value) { // 一个时间戳转正常的过滤器
@@ -70,6 +71,11 @@ export default new Router({
       path: '/collected',
       name: 'collected',
       component: Collected
+    },
+    {
+      path: '/cart',
+      name: 'cart',
+      component: Cart
     }
 	]
 })

@@ -9,16 +9,16 @@ const state = {
 	detail: {
 
 	},
-  collected:[]
+  collected:[],
+  cart: JSON.parse(window.localStorage.getItem("cart"))?JSON.parse(window.localStorage.getItem("cart")).length:0
 };
 const getters = {
 	detail: state => state.detail = state.detail
 };
 const mutations = {
-	getJson() {
-
-	}
-
+   CHANGE(state){
+     state.cart++;
+   }
 };
 const actions = {
   uncollected(){
@@ -67,7 +67,31 @@ const actions = {
 			.catch(err => {
 				console.log(err);
 			});
-	}
+	},
+  addcart(context){
+    Vue.http.get("mock/proDetail").then(res => {
+      if(!window.localStorage) {
+        $.alert("浏览器不支持localstorage");
+        return false;
+      } else {
+        let storage = window.localStorage;
+        if(storage.getItem("cart")==null){
+          storage.setItem("cart","["+storage.getItem("detail")+"]");
+          context.commit("CHANGE");
+          console.log(state.cart)
+        }else{
+          let c = JSON.parse(storage.getItem("cart"));
+          c.push(JSON.parse(storage.getItem("detail")));
+          storage.setItem("cart", JSON.stringify(c));
+          context.commit("CHANGE");
+          console.log(state.cart)
+        }
+      }
+    })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
 };
 const store = new Vuex.Store({

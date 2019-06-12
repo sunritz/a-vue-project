@@ -28,6 +28,7 @@
     return {
       name: 'admin',
       header: 'static/img/banner.a6f7adf.jpg'
+
     }
   }
   ,

@@ -14,7 +14,7 @@
       </li>
     </ul>
     <div class="btn">
-      <button>加入购物车</button>
+      <button @click="addcart">加入购物车</button>
       <button>立即购买</button>
     </div>
   </div>
@@ -27,6 +27,9 @@
       return {
         name:'admin'
       }
+  },
+  mounted:function(){
+
   },
   methods: {
     listpage: function () {
@@ -46,6 +49,16 @@
           $(".collect").addClass("icon-star-full")
           return false
         }
+      }else{
+        $.confirm('你还未登录，现在去登录吗？',function(){
+          window.location.href = "me";
+        })
+      }
+    },
+    addcart:function(){
+      let storage = window.localStorage;
+      if(storage.getItem("name") === this.name) {
+        this.$store.dispatch('addcart',this.cart);
       }else{
         $.confirm('你还未登录，现在去登录吗？',function(){
           window.location.href = "me";
