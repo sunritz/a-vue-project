@@ -59,6 +59,7 @@ const actions = {
 							$.alert("浏览器不支持localstorage");
 							return false;
 						} else {
+              state.detail = res.data.list;
 							let storage = window.localStorage;
 							storage.setItem("detail", JSON.stringify(res.data.list));
 						}

@@ -111,12 +111,6 @@
 			'detail'
 		]),
 		methods: mapActions([
-			//			'increment',
-			//			'decrement',
-			//			'incrementIfOdd',
-			//			'incrementAsync',
-			//			'vuexjson',
-			//			'checkbox'
 		]),
 		mounted: function() {
 			this.$store.dispatch('vuexjson');
@@ -127,28 +121,6 @@
 					observeParents: true
 				});
 			});
-
-			//		var mySwiper = new swiper('.swiper-container',{
-			//						pagination: '.swiper-wp',
-			//						dynamicBullets: true,
-			//						observer: true,
-			//						observeParents: true
-			//		})
-			//		mySwiper.reInit();
-			//		 this.$store.dispatch('getJson');
-			//			this.ajaxdata();
-			//			this.add();
-			//  		$(function() {
-			//			  $(".swiper-container").swiper(
-			//			  			{
-			//		  				 	spaceBetween: 30,
-			//		  				 	slidesPerView: 1,
-			//							pagination : '.swiper-pagination',
-			//			    			observer:true,
-			//			    			observeParents:true
-			//						}
-			//			  		);
-			//			});
 		},
 			methods: {
 

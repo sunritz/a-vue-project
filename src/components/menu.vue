@@ -39,7 +39,11 @@
       return false;
     } else {
       let storage = window.localStorage;
-      this.collectednum=JSON.parse(storage.getItem("collected")).length;
+      if(storage.getItem("collected")==null){
+        this.collectednum=0;
+      }else{
+        this.collectednum=JSON.parse(storage.getItem("collected")).length;
+      }
     }
   },
   methods: {
