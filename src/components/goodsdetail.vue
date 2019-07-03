@@ -6,8 +6,8 @@
       </a>
 			<h1 class="title">商品详情</h1>
 
-      <a class="button button-link button-nav pull-right" href="" data-transition='slide-out'>
-        <span class="icon icon-cart"></span><span class="badge">{{cartnum}}</span>
+      <a class="button button-link button-nav pull-right" href="cart" data-transition='slide-out' external>
+        <span class="icon icon-cart"></span><span class="badge"> {{ $store.state.cart }}</span>
       </a>
 
 
@@ -103,8 +103,7 @@
 	export default {
 		data() {
 			return {
-				details: this.$store.state.detail,
-        cartnum: this.$store.state.cart
+				details: this.$store.state.detail
 			}
 		},
 		created: function() {

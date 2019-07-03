@@ -2,7 +2,7 @@
 	<div>
 		<header class="bar bar-nav">
 			<h1 class="title">全球购</h1>
-			<a class="button button-link button-nav pull-right" href="" data-transition='slide-out'>
+			<a class="button button-link button-nav pull-right" href="cart" data-transition='slide-out' external>
         <span class="icon icon-cart"></span><span class="badge">{{cart}}</span>
 			</a>
 		</header>

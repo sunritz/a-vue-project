@@ -3,13 +3,14 @@
 import Vue from 'vue'
 import App from './App'
 import store from './store/detail'
+import cart from './store/cart'
 import router from './router'
-//import axios from 'axios'
 import './assets/fonts/font.css'
 import './assets/css/index.css'
 import Nav from '@/components/nav'
 import Menu from '@/components/menu'
 import Buynav from '@/components/buynav'
+import NavCart from '@/components/navcart'
 
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
@@ -18,10 +19,13 @@ Vue.config.productionTip = false
 Vue.component('app-nav', Nav)
 Vue.component('app-menu', Menu)
 Vue.component('app-buynav', Buynav)
+Vue.component('app-navcart', NavCart)
+
 new Vue({
 	el: '#app',
 	router,
 	store,
+  cart,
 	components: {
 		App
 	},

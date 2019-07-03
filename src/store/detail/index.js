@@ -6,6 +6,8 @@ require('../../mock');
 Vue.use(Vuex);
 
 const state = {
+  totalprice:0,
+  allcheck:0,
 	detail: {
 
 	},
@@ -78,13 +80,11 @@ const actions = {
         if(storage.getItem("cart")==null){
           storage.setItem("cart","["+storage.getItem("detail")+"]");
           context.commit("CHANGE");
-          console.log(state.cart)
         }else{
           let c = JSON.parse(storage.getItem("cart"));
           c.push(JSON.parse(storage.getItem("detail")));
           storage.setItem("cart", JSON.stringify(c));
           context.commit("CHANGE");
-          console.log(state.cart)
         }
       }
     })
