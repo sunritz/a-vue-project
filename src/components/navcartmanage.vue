@@ -4,8 +4,7 @@
       <label class="label-checkbox item-content"  >
          <input type="checkbox" name="my-radio" :checked="this.$store.state.allcheck">
         <div class="item-media" @click="checkall"><i class="icon icon-form-checkbox"></i></div>
-        <div class="price">合计{{this.$store.state.totalprice.toFixed(2)}}</div>
-        <button>结算</button>
+        <button @click="deleteitem">删除</button>
       </label>
     </div>
   </nav>
@@ -18,7 +17,6 @@
 
        }
     },
-
   methods: {
     checkall: function() {
       if(this.$store.state.allcheck==1){
@@ -28,11 +26,20 @@
         this.$store.state.allcheck=1
         this.$emit("checkedallaction","checked");
       }
+    },
+    deleteitem:function(){
+      this.$emit("deletechecked",1);
+      this.$store.state.allcheck=0;
+      this.$store.state.totalprice=0;
     }
   }
   }
 </script>
 <style lang="scss" scoped type="text/css">
+  .bar-tab .tab-item.active,
+  .bar-tab .tab-item:active {
+    color: #9bcb67
+  }
   .item-media{
     display: inline-block;
     margin:.5rem;

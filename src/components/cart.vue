@@ -5,11 +5,12 @@
         <span class="icon icon-circle-left"></span>
       </a>
       <h1 class="title">购物车</h1>
-      <a class="button button-link button-nav pull-right" @click="manage">
+      <a class="button button-link button-nav pull-right managecart" @click="manage">
         管理
       </a>
     </header>
     <app-navcart v-on:checkedallaction="showcheckedall" ></app-navcart>
+    <app-navcartmanage v-on:checkedallaction="showcheckedall" v-if="cartmanage" v-on:deletechecked="deleteitems"></app-navcartmanage>
     <div class="content">
       <div class="list-block media-list">
         <ul>
@@ -39,6 +40,7 @@
     data()
   {
     return {
+      cartmanage:false,
       name: 'admin',
       cart: [],
       allche:0
@@ -61,6 +63,29 @@
         window.location.href = "me";
       }
     },
+    deleteitems:function(data){
+      if($(".checkeditem").length == 0 && data==1){
+        $.toast('请勾选项目');
+        return false;
+      }else{
+        if(!window.localStorage) {
+          $.alert("浏览器不支持localstorage");
+          return false;
+        } else {
+          let storage = window.localStorage;
+          let c = JSON.parse(storage.getItem("cart"));
+          for(let i=0;i<=$('.checkeditem').length-1;i++){
+            for(let j=0;j<=c.length-1;j++){
+              if(c[j].proprice==$('.checkeditem')[i].dataset.price){
+                c.splice(j,1);
+                localStorage.setItem("cart",JSON.stringify(c));
+                this.load();
+              }
+            }
+          }
+        }
+      }
+    },
     showcheckedall:function(data){
       if(data=="checked") {
         var sum = 0;
@@ -68,12 +93,14 @@
           sum += parseFloat($('.item')[i].dataset.price);
           $('.item')[i].checked=true;
         }
-        this.$store.state.totalprice=sum
+        this.$store.state.totalprice=sum;
+        $("ul li").addClass("checkeditem")
       }else{
         for(let i=0;i<=$('.item').length-1;i++){
           $('.item')[i].checked=false;
         }
-        this.$store.state.totalprice=0
+        this.$store.state.totalprice=0;
+        $("ul li").removeClass("checkeditem")
       }
     },
     chose:function(){
@@ -85,16 +112,20 @@
         this.$store.state.totalprice=this.$store.state.totalprice+$(event.currentTarget).data('price');
         $(event.currentTarget).addClass('checkeditem')
       }
-
       if($('.item').length==$('.checkeditem').length){
         this.$store.state.allcheck=1
       }else{
         this.$store.state.allcheck=0
       }
-
     },
     manage:function () {
-
+      if($(".managecart").text()=="管理"){
+        $(".managecart").text("完成");
+        this.cartmanage=true;
+      }else{
+        $(".managecart").text("管理");
+        this.cartmanage=false;
+      }
     }
   }
   }

@@ -11,7 +11,7 @@ import Nav from '@/components/nav'
 import Menu from '@/components/menu'
 import Buynav from '@/components/buynav'
 import NavCart from '@/components/navcart'
-
+import NavCartManage from '@/components/navcartmanage'
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
 
@@ -20,7 +20,7 @@ Vue.component('app-nav', Nav)
 Vue.component('app-menu', Menu)
 Vue.component('app-buynav', Buynav)
 Vue.component('app-navcart', NavCart)
-
+Vue.component('app-navcartmanage', NavCartManage)
 new Vue({
 	el: '#app',
 	router,
