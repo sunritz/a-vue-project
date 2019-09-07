@@ -8,6 +8,7 @@ Vue.use(Vuex);
 const state = {
   totalprice:0,
   allcheck:0,
+  allcollect:0,
 	detail: {
 
 	},

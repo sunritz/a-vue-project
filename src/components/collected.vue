@@ -5,18 +5,19 @@
         <span class="icon icon-circle-left"></span>
       </a>
       <h1 class="title">已收藏</h1>
-      <a class="button button-link button-nav pull-right" @click="exit">
-        <span class="icon icon-exit"></span>退出
+      <a class="button button-link button-nav pull-right managecollect" @click="manage">
+        管理
       </a>
     </header>
 
     <app-nav me-cur="active"></app-nav>
+    <app-navcollectmanage v-on:collectallaction="showcheckedall" v-if="collectmanage" v-on:deletechecked="deleteitems"></app-navcollectmanage>
     <div class="content">
       <div class="list-block media-list">
         <ul>
-          <li v-for="item in collected">
+          <li v-for="item in collected" @click="chose($event)" :data-price="item.proprice">
             <label class="label-checkbox item-content">
-              <input type="checkbox" name="my-radio">
+              <input type="checkbox" name="my-radio" class="item">
               <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
               <div class="item-media"><img :src="item.userimg[0].img" style='width: 4rem;margin-left: .5rem;'></div>
               <div class="item-inner">
@@ -44,8 +45,10 @@
     data()
   {
     return {
+      collectmanage:false,
       name: 'admin',
-      collected: []
+      collected: [],
+      allche:0
     }
   }
   ,
@@ -61,13 +64,69 @@
       } else {
         window.location.href = "me";
       }
-    }
-  ,
-    exit:function () {
-      localStorage.removeItem("name");
-      $.alert('已退出', function () {
-        window.location.href = "me";
-      })
+    },
+    manage:function () {
+      if($(".managecollect").text()=="管理"){
+        $(".managecollect").text("完成");
+        this.collectmanage=true;
+      }else{
+        $(".managecollect").text("管理");
+        this.collectmanage=false;
+      }
+    },
+    deleteitems:function(data){
+
+      if($(".checkeditem").length == 0 && data==1){
+        $.toast('请勾选项目');
+        return false;
+      }else{
+        if(!window.localStorage) {
+          $.alert("浏览器不支持localstorage");
+          return false;
+        } else {
+
+          let storage = window.localStorage;
+          let c = JSON.parse(storage.getItem("collected"));
+          for(let i=0;i<=$('.checkeditem').length-1;i++){
+            for(let j=0;j<=c.length-1;j++){
+              if(c[j].proprice==$('.checkeditem')[i].dataset.price){
+                c.splice(j,1);
+                localStorage.setItem("collected",JSON.stringify(c));
+                this.load();
+              }
+            }
+          }
+        }
+      }
+    },
+    showcheckedall:function(data){
+      if(data=="checked") {
+        for(let i=0;i<=$('.item').length-1;i++){
+          $('.item')[i].checked=true;
+        }
+        $("ul li").addClass("checkeditem")
+      }else{
+        for(let i=0;i<=$('.item').length-1;i++){
+          $('.item')[i].checked=false;
+        }
+        $("ul li").removeClass("checkeditem")
+      }
+    },
+    chose:function(){
+      var thischose = $(event.currentTarget).find("input").prop("checked");
+      if(thischose==true){
+        //this.$store.state.totalprice=this.$store.state.totalprice-$(event.currentTarget).data('price');
+        $(event.currentTarget).removeClass('checkeditem')
+      }else{
+        //this.$store.state.totalprice=this.$store.state.totalprice+$(event.currentTarget).data('price');
+        $(event.currentTarget).addClass('checkeditem')
+      }
+      if($('.item').length==$('.checkeditem').length){
+        this.$store.state.allcollect=1
+
+      }else{
+        this.$store.state.allcollect=0
+      }
     }
   }
   }
@@ -78,6 +137,7 @@
   .content {
     background-color: $bg;
   }
+  * { touch-action: pan-y; }
   .list-block{
   .item-after{
     color:#f00;
